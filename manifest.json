@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "İnternet Bağlantı Yöneticisi",
+  "version": "1.0",
+  "description": "Ağ bağlantı yöneticisi",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "internetyok@firefox"
+    }
+  },
+  "permissions": [
+    "proxy",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}

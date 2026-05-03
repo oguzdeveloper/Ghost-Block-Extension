@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bağlantı hatası</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f9f9fa;
+      color: #15141a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .error-container {
+      max-width: 512px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .error-icon {
+      margin-bottom: 24px;
+    }
+
+    .error-icon img {
+      width: 90px;
+      height: 90px;
+    }
+
+    h1 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #15141a;
+    }
+
+    .error-hostname {
+      font-size: 15px;
+      color: #15141a;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .error-details {
+      text-align: left;
+      background: #ffffff;
+      border: 1px solid #cfcfd8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: #5b5b66;
+      line-height: 1.6;
+    }
+
+    .error-details ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+
+    .error-details li {
+      margin-bottom: 4px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .try-again-btn {
+      background-color: #0060df;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      min-width: 120px;
+      transition: background-color 0.15s;
+    }
+
+    .try-again-btn:hover {
+      background-color: #0250bb;
+    }
+
+    .try-again-btn:active {
+      background-color: #054096;
+    }
+
+    /* Firefox gerçek hata sayfası URL çubuğu uyumluluğu */
+    .url-display {
+      font-size: 13px;
+      color: #5b5b66;
+      word-break: break-all;
+      margin-bottom: 4px;
+    }
+
+    .error-code {
+      font-size: 12px;
+      color: #8f8f9d;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #2b2a33;
+        color: #fbfbfe;
+      }
+
+      h1 {
+        color: #fbfbfe;
+      }
+
+      .error-hostname {
+        color: #cfcfd8;
+      }
+
+      .error-details {
+        background: #42414d;
+        border-color: #5b5b66;
+        color: #cfcfd8;
+      }
+
+      .error-code {
+        color: #8f8f9d;
+      }
+
+      .try-again-btn {
+        background-color: #0df;
+        color: #15141a;
+      }
+
+      .try-again-btn:hover {
+        background-color: #80ebff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <div class="error-icon">
+      <img src="error-icon.svg" alt="">
+    </div>
+
+    <h1>Hmm. Bu sayfaya ulaşırken sorun yaşıyoruz.</h1>
+    
+    <p class="error-hostname" id="errorHostname"></p>
+
+    <div class="error-details">
+      <p>Eğer bu adres doğruysa birkaç şey deneyebilirsiniz:</p>
+      <ul>
+        <li>Daha sonra tekrar deneyin.</li>
+        <li>Ağ bağlantınızı kontrol edin.</li>
+        <li>Bir güvenlik duvarının arkasında bağlanıyorsanız Firefox'un web'e erişim izni olduğundan emin olun.</li>
+      </ul>
+    </div>
+
+    <div class="button-container">
+      <button class="try-again-btn" id="retryBtn">Yeniden dene</button>
+    </div>
+
+    <p class="error-code">PR_CONNECT_RESET_ERROR</p>
+  </div>
+
+  <script>
+    // URL parametresinden orijinal adresi al
+    const params = new URLSearchParams(window.location.search);
+    const originalUrl = params.get("url") || "https://www.google.com";
+
+    // Hostname'i çıkar ve göster
+    let hostname = originalUrl;
+    try {
+      hostname = new URL(originalUrl).hostname;
+    } catch (e) {
+      hostname = originalUrl;
+    }
+
+    document.getElementById("errorHostname").textContent = 
+      hostname + " adresindeki siteye bağlanılamıyor.";
+
+    // Sayfa başlığını güncelle
+    document.title = hostname + " adresine bağlanılamadı";
+
+    // Yeniden dene butonu - aynı hata sayfasını tekrar göstersin
+    document.getElementById("retryBtn").addEventListener("click", function () {
+      // Kısa bir "yükleniyor" efekti göster, sonra aynı sayfayı tekrar yükle
+      this.textContent = "Yükleniyor…";
+      this.disabled = true;
+      setTimeout(function () {
+        // Aynı sayfayı yeniden yükle (yine engellenecek)
+        window.location.reload();
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
