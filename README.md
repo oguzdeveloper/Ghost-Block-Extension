@@ -299,6 +299,6 @@ Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
 
 ---
 
-Made with 👻 by Ghost Block
+Made with 👻 by Oguz
 
 </div>
